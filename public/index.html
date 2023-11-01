@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .card {
+      text-align: center;
+      border: 1px solid rgb(52, 116, 235);
+      width: 50%;
+      margin: auto auto;
+      border-radius: 4px;
+    }
+    .header {
+      border-bottom: 1px solid rgb(191, 190, 187);
+      display: flex;
+      background-color: rgba(125, 163, 232);
+    }
+    .flex1, .flex2 {
+      margin-left: 2.5%;
+    }
+    .flex1 {
+      padding-top: 2.5%;
+      padding-bottom: 2.5%;
+    }
+    .flex2 {
+      padding-top: 2.5%;
+    }
+    .flex1 img {
+      border-radius: 50%;
+    }
+    .flex2 h3, .header h3 {
+      text-align: center;
+    }
+    #password {
+      color: red;
+    }
+  </style>
+</head>
+<script defer>
+  async function getUsers() {
+    let response = await fetch('/users?results=100');
+    let users = await response.json();
+    console.log(users[0])
+
+    let user = users[0];
+    
+    document.getElementById("name").innerHTML = users[0].name.last + ", " + user.name.first + " (" + user.dob.age + ")";
+    document.getElementById("piccy").src = user.picture.medium;
+    document.getElementById("gender").innerHTML += user.gender;
+    document.getElementById("email").innerHTML += user.email;
+    document.getElementById("username").innerHTML += user.login.username;
+    document.getElementById("password").innerHTML += user.login.password;
+    document.getElementById("husDetaljer").innerHTML += user.location.street.name + " " + user.location.street.number + ", " + user.location.postcode + " " + user.location.city.toUpperCase() + ", " + user.location.country;
+    document.getElementById("tidssone").innerHTML += user.location.timezone.offset + " " + user.location.timezone.description;
+    
+      // for (let user of users) {
+      //   document.body.innerHTML += `<li>${user.name.first} ${user.name.last}</li>`
+      // }
+  }
+  getUsers()
+</script>
+
+<body>
+  <div class="card">
+    <h3>Name and Face</h3>
+    <div class="header">
+      <div class="flex1">
+        <img src="" id="piccy">
+      </div>
+      <div class="flex2">
+        <p id="name"></p>
+        <p id="gender">Gender: </p>
+      </div>
+    </div>
+    <div class="body">
+      <h3>Personlige detailjer</h3>
+      <p id="email">Email: </p>
+      <p id="username">Username: </p>
+      <p>Password: <span id="password"></span></p>
+      <p id="husDetaljer">Addresse: </p>
+      <p id="tidssone">Tidssone: </p>
+    </div>
+    <div class="footer"></div>
+  </div>
+  </body>
+</html>
